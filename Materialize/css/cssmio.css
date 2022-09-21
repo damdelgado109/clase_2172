@@ -1,0 +1,14 @@
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+main {
+	flex: 1 0 auto;
+}
+table.striped > tbody > tr:nth-child(odd) {
+	  background-color: rgba(197, 248, 144, 0.5);
+}
+.pagination li.active {
+  background-color: #5191f0;
+}
