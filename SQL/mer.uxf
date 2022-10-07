@@ -71,7 +71,7 @@ N
 </panel_attributes><additional_attributes>30;10;10;80</additional_attributes></element><element><id>UMLNote</id><coordinates><x>990</x><y>297</y><w>154</w><h>77</h></coordinates><panel_attributes>Facturas que realiza
  el cliente
 bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>803</x><y>99</y><w>176</w><h>44</h></coordinates><panel_attributes>Libros en la  factura
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>803</x><y>132</y><w>66</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>968</x><y>209</y><w>88</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>704</x><y>781</y><w>363</w><h>154</h></coordinates><panel_attributes>&lt;&lt;facturas&gt;&gt;
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>803</x><y>132</y><w>66</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>968</x><y>209</y><w>88</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>693</x><y>759</y><w>363</w><h>154</h></coordinates><panel_attributes>&lt;&lt;facturas&gt;&gt;
 --
 * id: INT(100)
 * id_cliente: INT(10)
@@ -80,7 +80,7 @@ bg=blue</panel_attributes><additional_attributes></additional_attributes></eleme
 Primary key: id
 --
 forenkey: id_cliente-&gt;cliente(id)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>847</x><y>715</y><w>55</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>704</x><y>968</y><w>363</w><h>154</h></coordinates><panel_attributes>&lt;&lt;facturas_libros&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>847</x><y>715</y><w>44</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>20;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>704</x><y>968</y><w>363</w><h>154</h></coordinates><panel_attributes>&lt;&lt;facturas_libros&gt;&gt;
 --
 * id: BIGINT(100)
 * id_factura: INT(100)
@@ -90,4 +90,4 @@ Primary key: id
 --
 forenkey: id_factura-&gt;facturas(id)
 forenkey: id_libro-&gt;libros(id)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>858</x><y>924</y><w>33</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>564</x><y>949</y><w>165</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>130;60;10;10</additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>847</x><y>902</y><w>44</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>20;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>564</x><y>949</y><w>165</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>130;60;10;10</additional_attributes></element></diagram>
