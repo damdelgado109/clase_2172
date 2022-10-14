@@ -90,7 +90,8 @@
 	$varNumero+=3;
 	echo($varNumero);
 	echo("<br>");
-
+	$varNumero--;
+	echo("Soy yo:".$varNumero);
 
 ?>
 
