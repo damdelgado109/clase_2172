@@ -104,5 +104,35 @@ echo("<hr>");
 
 	echo("<br><br>Usted va a aportar:".$irpf);
 
+	echo("<hr>");
+	echo("<h2>Switch</h2>");
+
+	$i = 3;
+
+	switch($i){
+		case 0:
+			echo('<br> $i vale = 0 ');
+			break;
+		case 1:
+			echo('<br> $i vale = 1 ');
+			break;
+		case 2:
+			echo('<br> $i vale = 2 ');
+		case 3:
+			echo('<br> $i vale = 3 ');
+		case 4:
+			echo('<br> $i vale = 4 ');
+			break;
+		case "Texto":
+			echo('<br> $i vale = Texto ');
+			break;
+
+		default:
+			echo('<br> $i vale = Otro numero ');
+	}
+
+
+
+
 
 ?>
