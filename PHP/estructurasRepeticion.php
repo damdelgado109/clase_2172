@@ -1,6 +1,6 @@
 <?php
 
-
+	echo("ES");
 	echo("<h1>Estructura repeticion</h1>");
 
 	echo("<h2>Bucle While</h2>");
