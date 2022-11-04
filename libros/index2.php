@@ -1,62 +1,30 @@
 
 <?php
 
-	$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
-	$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	require_once("modelos/libros.php");
 
-	try{
-		//$titulo 	= isset($_POST['titulo'])?$_POST['titulo']:"";	
-		$titulo		= $_POST['ibsn'];
+	$objLibros = new libros();
 
-		$ibsn 		= isset($_POST['ibsn'])?$_POST['ibsn']:"";	
-		$prologo 	= isset($_POST['prologo'])?$_POST['prologo']:"";	
-		$precio 	= isset($_POST['precio'])?$_POST['precio']:"";		
-		$editorial 	= isset($_POST['editorial'])?$_POST['editorial']:"";
-		$anio 		= isset($_POST['anio'])?$_POST['anio']:"";
-		$autor 		= isset($_POST['autor'])?$_POST['autor']:"";
 
-		if(isset($_POST['action']) &&  isset($_POST['action']) == "ingresar"){
+	if(isset($_POST['action']) &&  isset($_POST['action']) == "ingresar"){
 
-			$sqlInsert = "INSERT libros SET
-							titulo 		= :titulo,
-							ibsn 		= :ibsn,
-							prologo 	= :prologo,
-							precio 		= :precio,
-							editorial 	= :editorial,
-							anio 		= :anio,
-							id_autor 	= :autor ";	
+		$arrayLibros = $_POST;
 
-			//print_r($sqlInsert);
-			$mysqlPrepare = $conexion->prepare($sqlInsert);
-			$arraySql = array(
-							"titulo" 	=> $titulo,
-							"ibsn" 		=> $ibsn,
-							"prologo" 	=> $prologo,
-							"precio" 	=> $precio,
-							"editorial" => $editorial,
-							"anio" 		=> $anio,
-							"autor" 	=> $autor,
-						);
-			$mysqlPrepare->execute($arraySql);	
+		$objLibros->constructor($arrayLibros);
 
-		}
+		$objLibros->ingresarLibros();
 
-	}catch(Exception $e){
+	}
+	if(isset($_GET['id']) && $_GET['id'] > 0){
 
-		print($e->getMessage());
+		$idLibro = $_GET['id'];
 
-	}catch(PDOException $pdoExe){
-
-		print($pdoExe->getMessage());
+		$objLibros->cargarLibro($idLibro);
 
 	}
 
-	
-	$sql = "SELECT * FROM libros";
-	$mysqlPrepare = $conexion->prepare($sql);
-	$mysqlPrepare->execute(array());	
-	$respuesta = $mysqlPrepare->fetchAll(PDO::FETCH_ASSOC);
-	//print_r($conexion->getAttribute(PDO::ATTR_CLIENT_VERSION));
+
+	$listaLibros = $objLibros->listarLibros();
 
 ?>
 
@@ -74,12 +42,11 @@
 	<body>
 		 <nav>
 			<div class="nav-wrapper">
-				<a href="#" class="brand-logo center">Calculadora</a>
+				<a href="#" class="brand-logo center">Libros</a>
 			</div>
 		</nav>
 		<div class="container">
-			<h1 class="center"> Libros</h1>
-			<form class="col s12" action="calculadora.php" method="POST" >
+			<h1 class="center"> Libros 2</h1>
 				<div class="row">					
   					<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Ingresar</a>
 					<table class="striped">
@@ -93,13 +60,16 @@
 						</thead>
 						<tbody>
 <?php
-							foreach($respuesta as $libro){
+							foreach($listaLibros as $libro){
 ?>
 								<tr>
 									<td><?=$libro['id']?></td>
 									<td><?=$libro['titulo']?></td>
 									<td><?=$libro['ibsn']?></td>
 									<td><?=$libro['precio']?></td>
+									<td>
+										<a href="index2.php?id=<?=$libro['id']?>">Ir</a>
+									</td>
 								</tr>
 <?php
 							}
@@ -109,12 +79,11 @@
 						</tbody>
 					</table>
 				</div>
-			</form>
 			<!-- Modal Structure -->
 			<div id="modal1" class="modal">
 				<div class="modal-content">
 					<h4>Ingresar Libros</h4>
-					<form class="col s12" action="index.php" method="POST" >
+					<form class="col s12" action="index2.php" method="POST" >
 						<div class="row">
 							<div class="input-field col s6">
 								<input id="titulo" type="text" class="validate" name="titulo">
