@@ -43,7 +43,9 @@
 
 			$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
 			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
-			$sql = "SELECT * FROM libros";
+			$sql = "SELECT titulo,l.id,ibsn,precio,a.nombre 
+						FROM libros l
+						INNER JOIN autores a ON a.id = l.id_autor ";
 			$mysqlPrepare = $conexion->prepare($sql);
 			$mysqlPrepare->execute(array());	
 			$respuesta = $mysqlPrepare->fetchAll(PDO::FETCH_ASSOC);

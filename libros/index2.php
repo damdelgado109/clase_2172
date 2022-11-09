@@ -26,6 +26,7 @@
 
 	$listaLibros = $objLibros->listarLibros();
 
+	print_r($listaLibros);
 ?>
 
 <!DOCTYPE html>
