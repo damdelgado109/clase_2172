@@ -11,23 +11,37 @@
 		<style>
 			.container {
 				margin-left: 310px;
-				width: 90%;				
-				max-width: 1500px;
+				margin-right: 10px;
+				width: 96%;				
+				max-width: 80%;
 			}
 			@media only screen and (max-width: 993px) {
 				.container {
 					margin-left: 10px;
 					margin-right: 10px;
-					max-width: 1500%;
+					width: 96%;	
+					max-width: 100%;
 				}
 			}
-			@media only screen and (min-width: 993px) {
+			@media only screen and (min-width: 994px) {
 				.container {
-					margin-left: 310px;
-					width: 98%;
-					max-width: 700;
 					margin-right: 10px;
+					width: 96%;			
+					max-width: 70%;
 				}
+			}
+			@media only screen and (min-width: 1200px) {
+				.container {
+					margin-right: 10px;
+					width: 96%;			
+					max-width: 76%;
+				}
+			}
+			.pagination li.active a {
+				color: #e8f5e9  ;
+			}
+			.pagination li.active {
+				background-color: #388e3c;
 			}
 		</style>
 	</head>
