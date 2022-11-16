@@ -23,7 +23,11 @@ class autores {
 		return $this->nombre;
 	}
 
-	public function fechaNacimiento(){
+	public function traerNacionalidad(){
+		return $this->nacionalidad;
+	}
+
+	public function traerfechaNacimiento(){
 		return $this->fechaNacimiento;
 	}
 
@@ -42,38 +46,151 @@ class autores {
 	}
 
 	public function ingresar(){
-	
-			$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
-			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
-			
-			if($this->fechaMuerte == ""){
-				$this->fechaMuerte = NULL;
-			}
 
-			$sqlInsert = "INSERT autores SET
-							nombre 			= :nombre,
-							nacionalidad	= :nacionalidad,
-							fechaNacimiento = :fechaNacimiento,
-							fechaMuerte 	= :fechaMuerte";	
-			$mysqlPrepare = $conexion->prepare($sqlInsert);
-			$arraySql = array(
-							"nombre" 			=> $this->nombre,
-							"nacionalidad" 		=> $this->nacionalidad,
-							"fechaNacimiento"	=> $this->fechaNacimiento,
-							"fechaMuerte" 		=> $this->fechaMuerte,
-						);
-			
-			$respuesta = $mysqlPrepare->execute($arraySql);
-
-			$retorno = array();
-			if($respuesta){
-				$retorno['codigo'] = "Ok";
-			}else{
-				$retorno['codigo'] = "Error";
-			}
-			return $retorno;
-
+		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+		if($this->fechaMuerte == ""){
+			$this->fechaMuerte = NULL;
 		}
+
+		$sqlInsert = "INSERT autores SET
+						nombre 			= :nombre,
+						nacionalidad	= :nacionalidad,
+						fechaNacimiento = :fechaNacimiento,
+						fechaMuerte 	= :fechaMuerte,
+						estado 			= 1";	
+		$mysqlPrepare = $conexion->prepare($sqlInsert);
+		$arraySql = array(
+						"nombre" 			=> $this->nombre,
+						"nacionalidad" 		=> $this->nacionalidad,
+						"fechaNacimiento"	=> $this->fechaNacimiento,
+						"fechaMuerte" 		=> $this->fechaMuerte,
+					);
+		
+		$respuesta = $mysqlPrepare->execute($arraySql);
+
+		$retorno = array();
+		if($respuesta){
+			$retorno['codigo'] = "Ok";
+		}else{
+			$retorno['codigo'] = "Error";
+		}
+		return $retorno;
+
+	}
+
+	public function editar(){
+
+		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+		if($this->fechaMuerte == ""){
+			$this->fechaMuerte = NULL;
+		}
+
+		$sqlInsert = "UPDATE autores SET
+						nombre 			= :nombre,
+						nacionalidad	= :nacionalidad,
+						fechaNacimiento = :fechaNacimiento,
+						fechaMuerte 	= :fechaMuerte
+						WHERE id = :id";	
+		$mysqlPrepare = $conexion->prepare($sqlInsert);
+		$arraySql = array(
+						"nombre" 			=> $this->nombre,
+						"nacionalidad" 		=> $this->nacionalidad,
+						"fechaNacimiento"	=> $this->fechaNacimiento,
+						"fechaMuerte" 		=> $this->fechaMuerte,
+						"id" 				=> $this->id,
+					);
+		
+		$respuesta = $mysqlPrepare->execute($arraySql);
+
+		$retorno = array();
+		if($respuesta){
+			$retorno['codigo'] = "Ok";
+		}else{
+			$retorno['codigo'] = "Error";
+		}
+		return $retorno;
+
+	}
+
+	public function borrar(){
+
+		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+
+		$sqlInsert = "UPDATE autores SET estado = 0 WHERE id = :id";	
+		$mysqlPrepare = $conexion->prepare($sqlInsert);
+		$arraySql = array(
+						"id" => $this->id,
+					);
+		$respuesta = $mysqlPrepare->execute($arraySql);
+		$retorno = array();
+		if($respuesta){
+			$retorno['codigo'] = "Ok";
+		}else{
+			$retorno['codigo'] = "Error";
+		}
+		return $retorno;
+
+	}
+
+	public function listar($arrayFiltros = array()){
+		/*
+			$arrayFiltros['pagina'] : numero de pagina que estoy
+			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
+		
+
+		*/
+
+
+		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+		$sql = "SELECT * FROM autores 
+					WHERE estado = 1";
+
+		//SELECT * FROM autores a LIMIT 10,5;
+		if(isset($arrayFiltros['totalRegistro']) && $arrayFiltros['totalRegistro']>0){
+			$origen = ($arrayFiltros['pagina'] -1) * $arrayFiltros['totalRegistro'];
+			$sql .= " LIMIT ".$origen.",".$arrayFiltros['totalRegistro'];
+		
+		}
+
+		$mysqlPrepare = $conexion->prepare($sql);
+		$mysqlPrepare->execute(array());	
+		$respuesta = $mysqlPrepare->fetchAll(PDO::FETCH_ASSOC);
+		return $respuesta;
+
+	}
+
+	public function cargar($idAutor){
+
+		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+		$sql = "SELECT * FROM autores WHERE id = :id";
+
+		$mysqlPrepare = $conexion->prepare($sql);
+
+		$arrayDatos = array();
+		$arrayDatos['id'] = $idAutor;
+		$mysqlPrepare->execute($arrayDatos);	
+		$respuesta = $mysqlPrepare->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach($respuesta as $autor){
+
+			$this->id 				= $autor['id'];
+			$this->nombre 			= $autor['nombre'];
+			$this->nacionalidad		= $autor['nacionalidad'];
+			$this->fechaNacimiento 	= $autor['fechaNacimiento'];
+			$this->fechaMuerte 		= $autor['fechaMuerte'];
+		}
+
+	}
 
 	public function extraerDatos($array, $clave){
 

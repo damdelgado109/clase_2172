@@ -13,6 +13,8 @@
 		include("vistas/clientes_vista.php");
 	}elseif($ruta == "facturas"){
 		include("vistas/facturas_vista.php");
+	}else{
+		include("vistas/inicio.php");
 	}	
 
 
