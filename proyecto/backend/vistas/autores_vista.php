@@ -1,8 +1,11 @@
 <?php
-	$ruta 	= isset($_GET['r'])?$_GET['r']:"";
-	$accion = isset($_GET['a'])?$_GET['a']:"";
-	$idAutor = isset($_GET['id'])?$_GET['id']:"";
 	
+	$ruta 		= isset($_GET['r'])?$_GET['r']:"";
+	$accion 	= isset($_GET['a'])?$_GET['a']:"";
+	$idAutor 	= isset($_GET['id'])?$_GET['id']:"";
+	$pagina 	= isset($_GET['pagina'])?$_GET['pagina']:"1";
+	$busqueda 	= isset($_GET['busqueda'])?$_GET['busqueda']:"";
+
 	//print_r("<h1>".$accion."::".$idAutor."</h1>");
 
 	require_once("modelos/autores.php");
@@ -48,11 +51,43 @@
 
 	}
 
+
+	// Array Filtros marco el total de registros por pagina
+	$arrayFiltros 	= array("totalRegistro"=>3, "busqueda" => $busqueda);
+	// Obtuve el total de registros que hay en base
+	$totalRegistros = $objAutores->totalRegistros($arrayFiltros);
+	/*
+	 Calcule la pagina haciendo el total de registros dividio la cantidad de registro
+	que voy a mostrar en la lista y redondeo el resultado para arriba
+	*/
+	$totalPaginas   = ceil($totalRegistros / $arrayFiltros['totalRegistro']);
+
+	if($pagina > $totalPaginas ){
+		$pagina = $totalPaginas;
+	}
+	if($pagina < 1){
+		$pagina = 1;
+	}
+	$arrayFiltros['pagina'] = $pagina ;
 	// Este array guarda la informacion para los filtros de la lista
-	$arrayFiltros = array( "totalRegistro"=>5, "pagina"=>2);
+	
+	print_r("<br>Total de pagina es:".$totalPaginas);
+
+	$paginaSiguiente = $pagina + 1;
+
+	if($paginaSiguiente > $totalPaginas ){
+		$paginaSiguiente = $totalPaginas;
+	}
+	$paginaAnterior = $pagina - 1;
+	if($paginaAnterior < 1){
+		$paginaAnterior = 1;
+	}
+
 
 	$listaAutores = $objAutores->listar($arrayFiltros);
 
+	
+	
 
 ?>
 
@@ -156,7 +191,23 @@
 			<tr>
 				<th colspan = "7">
 					 <!-- Modal Trigger -->
-					<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Ingresar</a>
+					<div class="nav-wrapper valign-wrapper green lighten-5" style="height:70px">
+						<div class="row">
+							<div class="col s6">
+								<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Ingresar</a>
+							</div>
+							<div class="col s6">
+								<form action="index.php" method="GET">
+									<div class="input-field">
+										<input type="hidden" name="r" value="<?=$ruta?>">;
+										<input id="search" type="search" name="busqueda" required>
+										<label class="label-icon" for="search"><i class="material-icons">search</i></label>
+										<i class="material-icons">close</i>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
 					<!-- Modal Structure -->
 					<div id="modal1" class="modal">
 						<div class="teal darken-4">
@@ -229,5 +280,33 @@
 <?php
 			}
 ?>
+			<tr>
+				<td class="green lighten-5 center-align" colspan="7"> 
+					<ul class="pagination">
+						<li class="waves-effect">
+							<a href="index.php?r=<?=$ruta?>&pagina=<?=$paginaAnterior?>&busqueda=<?=$busqueda?>"><i class="material-icons">chevron_left</i></a>
+						</li>
+<?php
+						for($i = 1; $i <= $totalPaginas; $i++ ){
+							//waves-effect o active
+							if($pagina == $i){
+								$marca = "active";
+							}else{
+								$marca = "waves-effect";
+							}	
+?>
+						<li class="<?=$marca?>">
+							<a href="index.php?r=<?=$ruta?>&pagina=<?=$i?>&busqueda=<?=$busqueda?>"><?=$i?></a>
+						</li>
+<?php
+
+						}
+?>				
+						<li class="waves-effect">
+							<a href="index.php?r=<?=$ruta?>&pagina=<?=$paginaSiguiente?>&busqueda=<?=$busqueda?>">	<i class="material-icons">chevron_right</i></a>
+						</li>
+					</ul>
+				<td>
+			</tr>
 		</tbody>
 	</table>

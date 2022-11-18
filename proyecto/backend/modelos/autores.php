@@ -47,7 +47,7 @@ class autores {
 
 	public function ingresar(){
 
-		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
 		
 		if($this->fechaMuerte == ""){
@@ -82,7 +82,7 @@ class autores {
 
 	public function editar(){
 
-		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
 		
 		if($this->fechaMuerte == ""){
@@ -118,7 +118,7 @@ class autores {
 
 	public function borrar(){
 
-		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
 		
 
@@ -142,24 +142,27 @@ class autores {
 		/*
 			$arrayFiltros['pagina'] : numero de pagina que estoy
 			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
-		
-
 		*/
 
-
-		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
 		
 		$sql = "SELECT * FROM autores 
 					WHERE estado = 1";
 
+		if(isset($arrayFiltros['busqueda']) && $arrayFiltros['busqueda'] != "" ){
+			$sql .= " AND (nombre LIKE ('%".$arrayFiltros['busqueda']."%') ";
+			$sql .= " OR nacionalidad LIKE ('%".$arrayFiltros['busqueda']."%')) ";
+		}
 		//SELECT * FROM autores a LIMIT 10,5;
 		if(isset($arrayFiltros['totalRegistro']) && $arrayFiltros['totalRegistro']>0){
+
 			$origen = ($arrayFiltros['pagina'] -1) * $arrayFiltros['totalRegistro'];
 			$sql .= " LIMIT ".$origen.",".$arrayFiltros['totalRegistro'];
 		
 		}
 
+		print_r($sql);
 		$mysqlPrepare = $conexion->prepare($sql);
 		$mysqlPrepare->execute(array());	
 		$respuesta = $mysqlPrepare->fetchAll(PDO::FETCH_ASSOC);
@@ -167,9 +170,39 @@ class autores {
 
 	}
 
+	public function totalRegistros($arrayFiltros = array()){
+		/*
+			$arrayFiltros['pagina'] : numero de pagina que estoy
+			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
+		*/
+
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+		$sql = "SELECT count(id) as total FROM autores 
+					WHERE estado = 1";
+
+		if(isset($arrayFiltros['busqueda']) && $arrayFiltros['busqueda'] != "" ){
+			$sql .= " AND (nombre LIKE ('%".$arrayFiltros['busqueda']."%') ";
+			$sql .= " OR nacionalidad LIKE ('%".$arrayFiltros['busqueda']."%')) ";
+		}
+
+		$mysqlPrepare = $conexion->prepare($sql);
+		$mysqlPrepare->execute(array());	
+		$respuesta = $mysqlPrepare->fetchAll(PDO::FETCH_ASSOC);
+		$retorno = 0;
+
+		foreach($respuesta as $total){
+			$retorno = $total['total'];
+		}
+
+		return $retorno;
+
+	}
+
 	public function cargar($idAutor){
 
-		$conexion = new PDO("mysql:host=localhost:3307;dbname=curso_2172", 'root', '');                                
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
 		
 		$sql = "SELECT * FROM autores WHERE id = :id";
