@@ -189,23 +189,23 @@
 	<table class="striped">
 		<thead>
 			<tr>
-				<th colspan = "7">
+				<th class='green lighten-5' colspan = "7">
 					 <!-- Modal Trigger -->
-					<div class="nav-wrapper valign-wrapper green lighten-5" style="height:70px">
-						<div class="row">
-							<div class="col s6">
-								<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Ingresar</a>
-							</div>
-							<div class="col s6">
-								<form action="index.php" method="GET">
-									<div class="input-field">
-										<input type="hidden" name="r" value="<?=$ruta?>">;
-										<input id="search" type="search" name="busqueda" required>
-										<label class="label-icon" for="search"><i class="material-icons">search</i></label>
-										<i class="material-icons">close</i>
-									</div>
-								</form>
-							</div>
+					<div class="row">
+						<div class="col s6 valign-wrapper" style="height:60px">
+							<a class="valign-wrapper waves-effect waves-light btn modal-trigger" href="#modal1">Ingresar</a>
+						</div>
+						<div class="col s6 ">
+							<form action="index.php" method="GET">
+								<div class="input-field">
+									<input type="hidden" name="r" value="<?=$ruta?>">
+									<input id="search" type="search" name="busqueda" required>
+									<label class="label-icon" for="search">
+										<i class="material-icons">search</i>
+									</label>
+									<i class="material-icons">close</i>
+								</div>
+							</form>
 						</div>
 					</div>
 					<!-- Modal Structure -->

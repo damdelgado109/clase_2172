@@ -1,4 +1,16 @@
- <!DOCTYPE html>
+<?php
+
+	@session_start();
+
+	if(!isset($_SESSION['nombre'])){
+
+		header('Location: login.php');
+
+	}
+
+?>
+
+<!DOCTYPE html>
   <html>
 	<head>
 		<!--Import Google Icon Font-->
@@ -112,12 +124,12 @@
 				</li>
 			</ul>
 	
-			<div class="container">
+		<div class="container">
 <?php
 			include("rutas.php");
 ?>
 
-			</div>
+		</div>
 
 		<!--JavaScript at end of body for optimized loading-->
 		<script type="text/javascript" src="web/js/materialize.min.js"></script>

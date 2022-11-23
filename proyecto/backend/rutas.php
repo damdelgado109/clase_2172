@@ -1,5 +1,7 @@
 
 <?php
+	
+
 
 	$ruta = isset($_GET['r'])?$_GET['r']:"";
 

@@ -3,62 +3,40 @@
 require_once("modelos/generico.php");
 
 
-class autores extends generico{
+class genero extends generico {
 
 
 	protected $nombre;
 
-	protected $nacionalidad;
-
-	protected $fechaNacimiento;
-
-	protected $fechaMuerte;
+	protected $descripcion;
 
 
 	public function traerNombre(){
 		return $this->nombre;
 	}
 
-	public function traerNacionalidad(){
-		return $this->nacionalidad;
-	}
-
-	public function traerfechaNacimiento(){
-		return $this->fechaNacimiento;
-	}
-
-	public function traerFechaMuerte(){
-		return $this->fechaMuerte;
+	public function traerDescripcion(){
+		return $this->descripcion;
 	}
 
 	public function constructor($arrayDatos = array()){
 
 		$this->id 				= $this->extraerDatos($arrayDatos,'id');
 		$this->nombre 			= $this->extraerDatos($arrayDatos,'nombre');
-		$this->nacionalidad		= $this->extraerDatos($arrayDatos,'nacionalidad');
-		$this->fechaNacimiento 	= $this->extraerDatos($arrayDatos,'fechaNacimiento');
-		$this->fechaMuerte 		= $this->extraerDatos($arrayDatos,'fechaMuerte');
-
+		$this->descripcion		= $this->extraerDatos($arrayDatos,'descripcion');
+	
 	}
 
 	public function ingresar(){
 
-		if($this->fechaMuerte == ""){
-			$this->fechaMuerte = NULL;
-		}
-
-		$sqlInsert = "INSERT autores SET
+		$sqlInsert = "INSERT generos SET
 						nombre 			= :nombre,
-						nacionalidad	= :nacionalidad,
-						fechaNacimiento = :fechaNacimiento,
-						fechaMuerte 	= :fechaMuerte,
-						estado 			= 1";	
+						descripcion		= :descripcion";	
 		$arraySql = array(
 						"nombre" 			=> $this->nombre,
-						"nacionalidad" 		=> $this->nacionalidad,
-						"fechaNacimiento"	=> $this->fechaNacimiento,
-						"fechaMuerte" 		=> $this->fechaMuerte,
-					);	
+						"descripcion" 		=> $this->descripcion
+					);
+			
 		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
 		return $retorno;
 
@@ -66,20 +44,13 @@ class autores extends generico{
 
 	public function editar(){
 
-		if($this->fechaMuerte == ""){
-			$this->fechaMuerte = NULL;
-		}
-		$sqlInsert = "UPDATE autores SET
+		$sqlInsert = "UPDATE generos SET
 						nombre 			= :nombre,
-						nacionalidad	= :nacionalidad,
-						fechaNacimiento = :fechaNacimiento,
-						fechaMuerte 	= :fechaMuerte
+						descripcion	= :descripcion
 						WHERE id = :id";	
 		$arraySql = array(
 						"nombre" 			=> $this->nombre,
-						"nacionalidad" 		=> $this->nacionalidad,
-						"fechaNacimiento"	=> $this->fechaNacimiento,
-						"fechaMuerte" 		=> $this->fechaMuerte,
+						"descripcion" 		=> $this->descripcion,
 						"id" 				=> $this->id,
 					);
 		
@@ -90,7 +61,8 @@ class autores extends generico{
 
 	public function borrar(){
 
-		$sqlInsert = "UPDATE autores SET estado = 0 WHERE id = :id";	
+		$sqlInsert = "UPDATE generos SET estado = 0 WHERE id = :id";	
+		$mysqlPrepare = $conexion->prepare($sqlInsert);
 		$arraySql = array(
 						"id" => $this->id,
 					);
@@ -106,12 +78,13 @@ class autores extends generico{
 			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
 		*/
 
-		$sql = "SELECT * FROM autores 
-					WHERE estado = 1";
+		$conexion = new PDO("mysql:host=localhost:3306;dbname=curso_2172", 'root', '');                                
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
+		
+		$sql = "SELECT * FROM generos";
 
 		if(isset($arrayFiltros['busqueda']) && $arrayFiltros['busqueda'] != "" ){
 			$sql .= " AND (nombre LIKE ('%".$arrayFiltros['busqueda']."%') ";
-			$sql .= " OR nacionalidad LIKE ('%".$arrayFiltros['busqueda']."%')) ";
 		}
 		//SELECT * FROM autores a LIMIT 10,5;
 		if(isset($arrayFiltros['totalRegistro']) && $arrayFiltros['totalRegistro']>0){
@@ -120,10 +93,10 @@ class autores extends generico{
 			$sql .= " LIMIT ".$origen.",".$arrayFiltros['totalRegistro'];
 		
 		}
-		$arraySql = array();
+		$arrayDatos = array();
 
-		$retorno = $this->cargarDatos($sql, $arraySql);
-		return $retorno;
+		$respuesta = $this->cargarDatos($sql, $arrayDatos);
+		return $respuesta;
 
 	}
 
@@ -133,21 +106,21 @@ class autores extends generico{
 			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
 		*/
 
-		$sql = "SELECT count(id) as total FROM autores 
+		$sql = "SELECT count(id) as total FROM generos 
 					WHERE estado = 1";
 
 		if(isset($arrayFiltros['busqueda']) && $arrayFiltros['busqueda'] != "" ){
 			$sql .= " AND (nombre LIKE ('%".$arrayFiltros['busqueda']."%') ";
-			$sql .= " OR nacionalidad LIKE ('%".$arrayFiltros['busqueda']."%')) ";
 		}
 
-		$arraySql = array();
+		$arrayDatos = array();
 		$retorno = 0;
 
-		$respuesta = $this->cargarDatos($sql, $arraySql);
+		$respuesta = $this->cargarDatos($sql, $arrayDatos);
 		foreach($respuesta as $total){
 			$retorno = $total['total'];
 		}
+
 		return $retorno;
 
 	}
@@ -155,19 +128,18 @@ class autores extends generico{
 	public function cargar($idAutor){
 
 
-		$sql = "SELECT * FROM autores WHERE id = :id";
-
+		$sql = "SELECT * FROM generos WHERE id = :id";
 		$arrayDatos = array();
 		$arrayDatos['id'] = $idAutor;
+
 		$respuesta = $this->cargarDatos($sql, $arrayDatos);
 
 		foreach($respuesta as $autor){
 
 			$this->id 				= $autor['id'];
 			$this->nombre 			= $autor['nombre'];
-			$this->nacionalidad		= $autor['nacionalidad'];
-			$this->fechaNacimiento 	= $autor['fechaNacimiento'];
-			$this->fechaMuerte 		= $autor['fechaMuerte'];
+			$this->descripcion		= $autor['descripcion'];
+
 		}
 
 	}
