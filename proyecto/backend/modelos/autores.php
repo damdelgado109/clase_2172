@@ -172,6 +172,19 @@ class autores extends generico{
 
 	}
 
+	public function listarSelect(){
+	
+		$sql = 'SELECT 
+					id,	
+					CONCAT(nombre, " - ",nacionalidad) AS nombre
+					FROM autores a
+					WHERE estado = 1';		
+		$arraySql = array();
+		$retorno = $this->cargarDatos($sql, $arraySql);
+		return $retorno;
+
+	}
+
 
 }
 

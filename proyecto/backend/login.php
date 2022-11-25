@@ -77,6 +77,11 @@
 							<i class="material-icons right">send</i>
 						</button>
 					</div>
+					<div class="row">					
+						<h2><?= strtoupper(substr(uniqid(), -6)) ?></h2>
+
+					</div>
+					
 				</form>
 			</div>
 

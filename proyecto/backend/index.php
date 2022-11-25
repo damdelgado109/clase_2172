@@ -77,7 +77,7 @@
 						<a href="#!">Perfil</a>
 					</li>
 					<li>
-						<a href="#!">Salir</a>
+						<a class="modal-trigger" href="#modalSalir">Salir</a>
 					</li>
 					<li class="divider" tabindex="-1"></li>
 					<li>
@@ -86,43 +86,56 @@
 				</ul>
 			</div>
 		</nav>
-			<ul id="slide-out" class="sidenav sidenav-fixed">
-				<li>
-					<div class="user-view">
-						<div class="background">
-							<img src="web/img/tablas_verdes.jpg" style="width:300px">
-						</div>
-						<a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-						<a href="#name"><span class="white-text name">John Doe</span></a>
-						<a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+		
+
+  <!-- Modal Structure -->
+		<div id="modalSalir" class="modal">
+			<div class="modal-content">
+				<h4>Estas seguro de salir?</h4>
+				</div>
+				<div class="modal-footer">
+				<a href="logout.php" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+			</div>
+		</div>
+
+		<ul id="slide-out" class="sidenav sidenav-fixed">
+			<li>
+				<div class="user-view">
+					<div class="background">
+						<img src="web/img/tablas_verdes.jpg" style="width:300px">
 					</div>
-				</li>
-				<li>
-					<a href="index.php?r=autores">
-						<i class="material-icons green-text text-darken-4">person</i>Autores
-					</a>
-				</li>
-				<li>
-					<a href="index.php?r=generos">
-						<i class="material-icons green-text text-darken-4">share</i>Generos
-					</a>
-				</li>
-				<li>
-					<a href="index.php?r=libros">
-						<i class="material-icons green-text text-darken-4">book</i>Libros
-					</a>
-				</li>
-				<li>
-					<a href="index.php?r=clientes">
-						<i class="material-icons green-text text-darken-4">contacts</i>Clientes
-					</a>
-				</li>
-				<li>
-					<a href="index.php?r=facturas">
-						<i class="material-icons green-text text-darken-4">credit_card</i>Facturas
-					</a>
-				</li>
-			</ul>
+					<a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+					<a href="#name"><span class="white-text name">John Doe</span></a>
+					<a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+				</div>
+			</li>
+			<li>
+				<a href="index.php?r=autores">
+					<i class="material-icons green-text text-darken-4">person</i>Autores
+				</a>
+			</li>
+			<li>
+				<a href="index.php?r=generos">
+					<i class="material-icons green-text text-darken-4">share</i>Generos
+				</a>
+			</li>
+			<li>
+				<a href="index.php?r=libros">
+					<i class="material-icons green-text text-darken-4">book</i>Libros
+				</a>
+			</li>
+			<li>
+				<a href="index.php?r=clientes">
+					<i class="material-icons green-text text-darken-4">contacts</i>Clientes
+				</a>
+			</li>
+			<li>
+				<a href="index.php?r=facturas">
+					<i class="material-icons green-text text-darken-4">credit_card</i>Facturas
+				</a>
+			</li>
+		</ul>
 	
 		<div class="container">
 <?php
@@ -131,14 +144,38 @@
 
 		</div>
 
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<div class="row">
+						<div class="input-field col s12">
+						<i class="material-icons prefix">textsms</i>
+						<input type="text" id="autocomplete-input" class="autocomplete">
+						<label for="autocomplete-input">Autocomplete</label>
+						</div>
+					</div>
+				</div>
+			</div>
+       	</div>
 		<!--JavaScript at end of body for optimized loading-->
 		<script type="text/javascript" src="web/js/materialize.min.js"></script>
 		<script>			
 			document.addEventListener('DOMContentLoaded', function() {
 				M.AutoInit();        
 				var elems = document.querySelectorAll('.dropdown-trigger');
-				var instances = M.Dropdown.init(elems, options);
+				var instances = M.Dropdown.init(elems);
+
+				var elems2 = document.querySelectorAll('.autocomplete');
+				var instance = M.Autocomplete.getInstance(elems2);
+				instance.open();				
+				instance.updateData({
+						"Apple": null,
+						"Microsoft": null,
+						"Google": 'https://placehold.it/250x250'
+				});
+
 			});
+
 		</script>
 	</body>
   </html>

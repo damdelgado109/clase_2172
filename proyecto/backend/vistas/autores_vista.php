@@ -286,14 +286,21 @@
 						<li class="waves-effect">
 							<a href="index.php?r=<?=$ruta?>&pagina=<?=$paginaAnterior?>&busqueda=<?=$busqueda?>"><i class="material-icons">chevron_left</i></a>
 						</li>
+
 <?php
-						for($i = 1; $i <= $totalPaginas; $i++ ){
+						for($i = ($pagina-5); $i <= ($pagina+5); $i++ ){
 							//waves-effect o active
+
+							if($i < 1 || $i > $totalPaginas){
+								continue;
+							}
+
 							if($pagina == $i){
 								$marca = "active";
 							}else{
 								$marca = "waves-effect";
 							}	
+
 ?>
 						<li class="<?=$marca?>">
 							<a href="index.php?r=<?=$ruta?>&pagina=<?=$i?>&busqueda=<?=$busqueda?>"><?=$i?></a>
