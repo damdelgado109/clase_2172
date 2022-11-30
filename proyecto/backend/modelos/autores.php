@@ -51,14 +51,32 @@ class autores extends generico{
 						nombre 			= :nombre,
 						nacionalidad	= :nacionalidad,
 						fechaNacimiento = :fechaNacimiento,
-						fechaMuerte 	= :fechaMuerte,
 						estado 			= 1";	
 		$arraySql = array(
 						"nombre" 			=> $this->nombre,
 						"nacionalidad" 		=> $this->nacionalidad,
 						"fechaNacimiento"	=> $this->fechaNacimiento,
-						"fechaMuerte" 		=> $this->fechaMuerte,
 					);	
+		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
+		return $retorno;
+
+	}
+
+	public function entretregado(){
+
+		if($this->fechaMuerte == ""){
+			$this->fechaMuerte = NULL;
+		}
+
+		$sqlInsert = "UPDATE autores SET
+						fechaMuerte 	= :fechaMuerte,
+						estado 			= '2'
+						WHERE id = :id";	
+		$arraySql = array(
+						"fechaMuerte" 		=> $this->fechaMuerte,
+						"id" 				=> $this->id,
+					);
+		
 		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
 		return $retorno;
 

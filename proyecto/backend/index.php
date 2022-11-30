@@ -18,6 +18,9 @@
 		<!--Import materialize.css-->
 		<link type="text/css" rel="stylesheet" href="web/css/materialize.min.css"  media="screen,projection"/>
 
+		
+
+
 		<!--Let browser know website is optimized for mobile-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<style>
@@ -148,35 +151,66 @@
 			<div class="row">
 				<div class="col s12">
 					<div class="row">
-						<div class="input-field col s12">
-						<i class="material-icons prefix">textsms</i>
-						<input type="text" id="autocomplete-input" class="autocomplete">
-						<label for="autocomplete-input">Autocomplete</label>
-						</div>
+						
 					</div>
 				</div>
 			</div>
        	</div>
 		<!--JavaScript at end of body for optimized loading-->
 		<script type="text/javascript" src="web/js/materialize.min.js"></script>
+
 		<script>			
 			document.addEventListener('DOMContentLoaded', function() {
 				M.AutoInit();        
 				var elems = document.querySelectorAll('.dropdown-trigger');
 				var instances = M.Dropdown.init(elems);
 
-				var elems2 = document.querySelectorAll('.autocomplete');
-				var instance = M.Autocomplete.getInstance(elems2);
-				instance.open();				
-				instance.updateData({
-						"Apple": null,
-						"Microsoft": null,
-						"Google": 'https://placehold.it/250x250'
+			});
+
+
+
+
+/*
+			document.addEventListener('DOMContentLoaded', function() {
+				var elems = document.querySelectorAll('#autocomplete-input');
+				var autoCompletado = M.Autocomplete.init(elems);
+						
+				autoCompletado.updateData({
+					"Apple": null,
+					"Microsoft": null,
+					"Google": 'https://placehold.it/250x250'
 				});
 
 			});
-
+*/
 		</script>
+
+		<div class="input-field col s12">
+			<i class="material-icons prefix">textsms</i>
+			<input type="text" id="autocomplete-input" class="autocomplete">
+			<label for="autocomplete-input">Autocomplete</label>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>	
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+		<script>
+			$(document).ready(function(){
+				console.log("Test");
+				$( function() {
+					$( "#autocomplete-input" ).autocomplete({
+						source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby", "python", "postgres" ],
+						messages: {
+							noResults: '',
+							results: function() {}
+						}
+					});
+
+				});
+			});
+		</script>
+
+
+
 	</body>
   </html>
 		

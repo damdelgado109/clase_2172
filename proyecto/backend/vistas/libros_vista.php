@@ -10,7 +10,7 @@
 
 	require_once("modelos/libros.php");
 	require_once("modelos/autores.php");
-
+	include("configuracion/configuracion.php");
 	$objLibro = new libros();
 	$objAutores = new autores();
 
@@ -18,9 +18,20 @@
 
 	if(isset($_POST['action']) && $_POST['action'] == "ingresar"){
 
-		$arrayDatos = $_POST;
-		$objLibro->constructor($arrayDatos);
-		$respuesta = $objLibro->ingresar();
+		print_r($_FILES);
+	
+		$imagen = $objLibro->subirImagen($_FILES['imagen'], 600, 600);
+		if($imagen){
+
+			$arrayDatos = $_POST;
+			$arrayDatos['imagen'] = $imagen;
+			$objLibro->constructor($arrayDatos);
+			$respuesta = $objLibro->ingresar();
+
+		}else{
+			$respuesta['codigo'] = "Error";
+		}
+
 
 		print_r($respuesta);
 	}
@@ -187,9 +198,11 @@
 				<th class='green lighten-5' colspan = "7">
 					 <!-- Modal Trigger -->
 					<div class="row">
+
 						<div class="col s6 valign-wrapper" style="height:60px">
 							<a class="valign-wrapper waves-effect waves-light btn modal-trigger" href="#modal1">Ingresar</a>
 						</div>
+
 						<div class="col s6 ">
 							<form action="index.php" method="GET">
 								<div class="input-field">
@@ -293,6 +306,7 @@
 				<th>ibsn</th>
                 <th>precio</th>
                 <th>editorial</th>    
+				<th>imagen</th>  
 				<th style="width:150px">Acciones</th>
 			</tr>
 		</thead>
@@ -306,6 +320,9 @@
 					<td><?=$libro['ibsn']?></td>
                     <td><?=$libro['precio']?></td>
                     <td><?=$libro['editorial']?></td>
+					<td>
+						<img src="<?=$RUTAIMG?><?=$libro['imagen']?>" width="100px">
+					</td>
 					<td>
 						<div class="right-align">
 							<a href="index.php?r=<?=$ruta?>&a=editar&id=<?=$libro['id']?>"  class="waves-effect waves-light btn yellow">
