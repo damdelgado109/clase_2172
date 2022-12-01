@@ -273,7 +273,7 @@
 <?php
 				foreach($listaAutoresSelect as $autores ){
 ?>
-											<option value="<?=$autores['id']?>"><?=$autores['nombre']?></option>
+											<option value="<?=$autores['id']?>">  <?=$autores['nombre']?> </option>
 <?php
 				}
 ?>
