@@ -54,6 +54,11 @@ class libros extends generico {
 		return $this->id_autor;
 	}
 
+	public function traerAnio(){
+		return $this->anio;
+	}
+	
+
 	public function constructor($arrayDatos = array()){
 
 		$this->id 			= $this->extraerDatos($arrayDatos,'id');
@@ -99,7 +104,8 @@ class libros extends generico {
 
 	public function editar(){
 
-		$sqlInsert = "UPDATE libros SET
+		if( $this->imagen != ""){
+			$sqlInsert = "UPDATE libros SET
 						titulo 		= :titulo,
 						ibsn		= :ibsn,
 						precio		= :precio,
@@ -108,16 +114,39 @@ class libros extends generico {
 						editorial	= :editorial,
 						id_autor	= :id_autor
 						WHERE id = :id";	
-		$arraySql = array(
-						"titulo" 	=> $this->titulo,
-						"ibsn" 		=> $this->ibsn,
-						"precio" 	=> $this->precio,
-						"prologo" 	=> $this->prologo,
-						"imagen" 	=> $this->imagen,
-						"editorial" => $this->editorial,
-						"id_autor" 	=> $this->id_autor,
-						"id" 		=> $this->id,
-					);
+			$arraySql = array(
+							"titulo" 	=> $this->titulo,
+							"ibsn" 		=> $this->ibsn,
+							"precio" 	=> $this->precio,
+							"prologo" 	=> $this->prologo,
+							"imagen" 	=> $this->imagen,
+							"editorial" => $this->editorial,
+							"id_autor" 	=> $this->id_autor,
+							"id" 		=> $this->id,
+						);
+		}else{
+			$sqlInsert = "UPDATE libros SET
+								titulo 		= :titulo,
+								ibsn		= :ibsn,
+								precio		= :precio,
+								prologo		= :prologo,
+								editorial	= :editorial,
+								id_autor	= :id_autor
+							WHERE id = :id";	
+			$arraySql = array(
+							"titulo" 	=> $this->titulo,
+							"ibsn" 		=> $this->ibsn,
+							"precio" 	=> $this->precio,
+							"prologo" 	=> $this->prologo,
+							"editorial" => $this->editorial,
+							"id_autor" 	=> $this->id_autor,
+							"id" 		=> $this->id,
+				);
+
+		}
+		
+
+
 		
 		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
 		return $retorno;
@@ -142,7 +171,21 @@ class libros extends generico {
 			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
 		*/
 
-		$sql = "SELECT * FROM libros WHERE estado = 1 ";
+		$sql = "SELECT 	lib.id,
+						lib.titulo,
+						lib.ibsn,
+						lib.precio,
+						lib.prologo,
+						lib.imagen, 
+						lib.editorial,
+						lib.anio, 
+						lib.id_autor,
+						group_concat(gen.nombre) AS genero
+					FROM libros lib
+						LEFT JOIN libros_generos lg ON lg.id_libro = lib.id
+						LEFT JOIN generos gen ON gen.id = lg.id_genero 						
+					WHERE lib.estado = 1 
+						GROUP BY lib.id";
 
 		if(isset($arrayFiltros['busqueda']) && $arrayFiltros['busqueda'] != "" ){
 			$sql .= " AND (titulo LIKE ('%".$arrayFiltros['busqueda']."%') ";

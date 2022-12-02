@@ -40,7 +40,6 @@
 
 	";
 
-
 	$arraySQL[] = "CREATE TABLE `administradores` (
 					`id` int(5) NOT NULL AUTO_INCREMENT,
 					`nombre` varchar(50) DEFAULT NULL,
