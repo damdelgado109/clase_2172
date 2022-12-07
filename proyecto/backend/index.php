@@ -67,6 +67,7 @@
 				<a href="#!" class="brand-logo center ">
 					<i class="material-icons">cloud</i>
 					<span class="yellow-text text-darken-2">M</span>i<span class="red-text text-darken-2">P</span>anel
+					<?=$_SESSION['idUser']?>
 				</a>
 				<ul class="right hide-on-med-and-down">
 					<li>
@@ -113,6 +114,11 @@
 					<a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
 				</div>
 			</li>
+
+<?php
+		print_r($_SESSION);
+		if(isset($_SESSION['idUser']) && $_SESSION['idUser'] == 1){
+?>
 			<li>
 				<a href="index.php?r=autores">
 					<i class="material-icons green-text text-darken-4">person</i>Autores
@@ -123,6 +129,9 @@
 					<i class="material-icons green-text text-darken-4">share</i>Generos
 				</a>
 			</li>
+<?php
+		}
+?>
 			<li>
 				<a href="index.php?r=libros">
 					<i class="material-icons green-text text-darken-4">book</i>Libros

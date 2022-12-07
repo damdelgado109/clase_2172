@@ -387,6 +387,9 @@
 					<td><?=$libro['genero']?></td>
 					<td>
 						<div class="right-align">
+							<a href="index.php?r=envios&a=ingresar&idCliente=<?=$libro['id']?>"  class="waves-effect waves-light btn blue">
+								<i class="material-icons left black-text">send</i>
+							</a>
 							<a href="index.php?r=<?=$ruta?>&a=editar&id=<?=$libro['id']?>"  class="waves-effect waves-light btn yellow">
 								<i class="material-icons left black-text">edit</i>
 							</a>

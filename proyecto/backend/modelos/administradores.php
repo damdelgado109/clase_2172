@@ -41,6 +41,7 @@ class administradores extends generico {
 		foreach($respuesta as $usuario){
 
 			@session_start();
+			$_SESSION['idUser'] = $usuario['id'];
 			$_SESSION['nombre'] = $usuario['nombre'];
 			return "OK";
 

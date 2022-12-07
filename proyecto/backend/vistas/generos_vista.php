@@ -6,9 +6,20 @@
 	$pagina 	= isset($_GET['pagina'])?$_GET['pagina']:"1";
 	$busqueda 	= isset($_GET['busqueda'])?$_GET['busqueda']:"";
 
-	//print_r("<h1>".$accion."::".$idGenero."</h1>");
+	$idCliente	= isset($_GET['idCliente'])?$_GET['idCliente']:"";
 
 	require_once("modelos/genero.php");
+	require_once("modelos/clientes.php");
+
+	$objClientes = new clientes();
+
+	if(	$idCliente != ""){
+		$objClientes->cargar($idCliente);	
+	}
+
+	//print_r("<h1>".$accion."::".$idGenero."</h1>");
+
+	
 
 	$objGenero = new genero();
 
@@ -203,13 +214,13 @@
 					<!-- Modal Structure -->
 					<div id="modal1" class="modal">
 						<div class="teal darken-4">
-							<h4 class=" white-text">Ingresar Autor</h4>
+							<h4 class=" white-text">Ingresar Genero</h4>
 						</div>
 						<form action="index.php?r=<?=$ruta?>" method="POST" class="col s12">
 							<div class="modal-content">
 								<div class="row">
 									<div class="input-field col s10">
-										<input id="nombre" type="text" class="validate" name="nombre">
+										<input id="nombre" type="text" class="validate" name="nombre" value="<?=date("Y-m-d")?>">
 										<label for="nombre">Nombre</label>
 									</div>
 								

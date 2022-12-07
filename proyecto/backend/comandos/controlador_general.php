@@ -10,8 +10,14 @@
             if($_SERVER['argv'][1] == "Instalacion"){
 
                 include("comandos/instalador.php");
+            
+            }elseif($_SERVER['argv'][1] == "CSVAutoresBorrado"){
 
+                include("comandos/csvAutoresBorrados.php");
+            
+            }else{
 
+                print_r($_SERVER['argv']);
             }
 
         }else{

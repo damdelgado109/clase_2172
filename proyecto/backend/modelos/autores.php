@@ -52,8 +52,9 @@ class autores extends generico{
 						nacionalidad	= :nacionalidad,
 						fechaNacimiento = :fechaNacimiento,
 						estado 			= 1";	
+		$nombre = md5($this->nombre);
 		$arraySql = array(
-						"nombre" 			=> $this->nombre,
+						"nombre" 			=> $nombre,
 						"nacionalidad" 		=> $this->nacionalidad,
 						"fechaNacimiento"	=> $this->fechaNacimiento,
 					);	
@@ -93,13 +94,20 @@ class autores extends generico{
 						fechaNacimiento = :fechaNacimiento,
 						fechaMuerte 	= :fechaMuerte
 						WHERE id = :id";	
-		$arraySql = array(
+		/*$arraySql = array(
 						"nombre" 			=> $this->nombre,
 						"nacionalidad" 		=> $this->nacionalidad,
 						"fechaNacimiento"	=> $this->fechaNacimiento,
 						"fechaMuerte" 		=> $this->fechaMuerte,
 						"id" 				=> $this->id,
 					);
+		*/
+		$arraySql = array();
+		$arraySql['nombre'] 		= $this->nombre;
+		$arraySql['nacionalidad']	= $this->nacionalidad;
+		$arraySql['fechaNacimiento'] = $this->fechaNacimiento;
+		$arraySql['fechaMuerte'] 	= $this->fechaMuerte;
+		$arraySql['id'] 			= $this->id;
 		
 		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
 		return $retorno;
@@ -123,9 +131,19 @@ class autores extends generico{
 			$arrayFiltros['pagina'] : numero de pagina que estoy
 			$arrayFiltros['totalRegistro'] : el numero total de registro que vamos a traer
 		*/
+		$arraySql = array();
+		$sql = "SELECT * FROM autores";
 
-		$sql = "SELECT * FROM autores 
-					WHERE estado = 1";
+		if(isset($arrayFiltros['estado']) && $arrayFiltros['estado'] != ""){
+
+			$sql .= " WHERE estado = :estado";
+			$arraySql['estado'] = $arrayFiltros['estado'];
+
+		}else{
+
+			$sql .= " WHERE estado = 1 ";
+
+		}
 
 		if(isset($arrayFiltros['busqueda']) && $arrayFiltros['busqueda'] != "" ){
 			$sql .= " AND (nombre LIKE ('%".$arrayFiltros['busqueda']."%') ";
@@ -138,8 +156,7 @@ class autores extends generico{
 			$sql .= " LIMIT ".$origen.",".$arrayFiltros['totalRegistro'];
 		
 		}
-		$arraySql = array();
-
+		
 		$retorno = $this->cargarDatos($sql, $arraySql);
 		return $retorno;
 
@@ -200,6 +217,61 @@ class autores extends generico{
 		$arraySql = array();
 		$retorno = $this->cargarDatos($sql, $arraySql);
 		return $retorno;
+
+	}
+
+	public function obtenerEnum(){
+
+		$arrayEnum = array();
+
+		$sql = 'SHOW CREATE TABLE clientes;';		
+		$arraySql = array();
+		$retorno = $this->cargarDatos($sql, $arraySql);
+
+		$arrayRecorte = explode("\n",$retorno[0]['Create Table']);
+		
+		foreach($arrayRecorte as $recorte){
+
+			$recorte = trim($recorte);
+			$respuesta = preg_match("/estado/", $recorte);
+			if($respuesta == True){
+
+				$lugarParentesisUno = strpos($recorte, "(");
+				$lugarParentesisDos = strpos($recorte, ")");
+				$final = $lugarParentesisDos - $lugarParentesisUno;
+				$strEnum =  substr($recorte, $lugarParentesisUno, $final);
+				$arrayCasiEnum = explode(",",$strEnum);
+				for( $i=0; count($arrayCasiEnum) > $i; $i++){
+					$limpiar = str_replace("'", "", $arrayCasiEnum[$i]);
+					$limpiar = str_replace("(", "", $limpiar);
+					$limpiar = str_replace(")", "", $limpiar);
+					$arrayEnum[$limpiar] = $limpiar;
+				}
+			}
+		}
+
+		print_r($arrayEnum);
+
+//`estado` enum('Activado','Desactivado','Borrado') DEFAULT NULL,
+
+		//$arrayEnum = array('Activado'=>'Activado','Desactivado'=>'Desactivado','Borrado'=>'Borrado', );
+
+
+		return $arrayEnum;
+
+		/*
+		CREATE TABLE `clientes` (
+		`id` int(10) NOT NULL AUTO_INCREMENT,
+		`nombre` varchar(50) NOT NULL,
+		`apellido` varchar(50) NOT NULL,
+		`telefono` varchar(10) DEFAULT NULL,
+		`mail` varchar(100) DEFAULT NULL,
+		`estado` enum('Activado','Desactivado','Borrado') DEFAULT NULL,
+		PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1
+
+		*/
+
 
 	}
 

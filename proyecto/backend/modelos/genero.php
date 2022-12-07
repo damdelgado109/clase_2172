@@ -125,12 +125,12 @@ class genero extends generico {
 
 	}
 
-	public function cargar($idAutor){
+	public function cargar($idGenero){
 
 
 		$sql = "SELECT * FROM generos WHERE id = :id";
 		$arrayDatos = array();
-		$arrayDatos['id'] = $idAutor;
+		$arrayDatos['id'] = $idGenero;
 
 		$respuesta = $this->cargarDatos($sql, $arrayDatos);
 
