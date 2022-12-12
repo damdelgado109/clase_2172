@@ -1,21 +1,18 @@
 <?php
-	
+
+	@session_start();	
+
 	$ruta 		= isset($_GET['r'])?$_GET['r']:"";
 	$accion 	= isset($_GET['a'])?$_GET['a']:"";
 	$idGenero 	= isset($_GET['id'])?$_GET['id']:"";
 	$pagina 	= isset($_GET['pagina'])?$_GET['pagina']:"1";
 	$busqueda 	= isset($_GET['busqueda'])?$_GET['busqueda']:"";
-
-	$idCliente	= isset($_GET['idCliente'])?$_GET['idCliente']:"";
+	$llaveValor	= isset($_POST['llave'])?$_POST['llave']:"";
+	
+	
 
 	require_once("modelos/genero.php");
-	require_once("modelos/clientes.php");
 
-	$objClientes = new clientes();
-
-	if(	$idCliente != ""){
-		$objClientes->cargar($idCliente);	
-	}
 
 	//print_r("<h1>".$accion."::".$idGenero."</h1>");
 
@@ -26,11 +23,15 @@
 
 	if(isset($_POST['action']) && $_POST['action'] == "ingresar"){
 
-		$arrayDatos = $_POST;
-		$objGenero->constructor($arrayDatos);
-		$respuesta = $objGenero->ingresar();
+		if($llaveValor == $_SESSION['llave']){			
+			$arrayDatos = $_POST;
+			$objGenero->constructor($arrayDatos);
+			$respuesta = $objGenero->ingresar();
 
-		print_r($respuesta);
+		}else{
+			$respuesta['codigo'] = "Error";
+		}
+
 	}
 
 	if(isset($_POST['action']) && $_POST['action'] == "editar"){
@@ -38,8 +39,8 @@
 		$arrayDatos = $_POST;
 		$objGenero->constructor($arrayDatos);
 		$respuesta = $objGenero->editar();
-
 		print_r($respuesta);
+
 	}
 
 	if(isset($_POST['action']) && $_POST['action'] == "borrar"){
@@ -64,7 +65,7 @@
 
 
 	// Array Filtros marco el total de registros por pagina
-	$arrayFiltros 	= array("totalRegistro"=>3, "busqueda" => $busqueda);
+	$arrayFiltros 	= array("totalRegistro"=>20, "busqueda" => $busqueda);
 	// Obtuve el total de registros que hay en base
 	$totalRegistros = $objGenero->totalRegistros($arrayFiltros);
 	/*
@@ -97,7 +98,10 @@
 
 	$listaGenero   = $objGenero->listar($arrayFiltros);
 
+
 	
+	$llave = date("Ymdhis");
+	$_SESSION['llave'] = $llave;	
 	
 
 ?>
@@ -220,7 +224,7 @@
 							<div class="modal-content">
 								<div class="row">
 									<div class="input-field col s10">
-										<input id="nombre" type="text" class="validate" name="nombre" value="<?=date("Y-m-d")?>">
+										<input id="nombre" type="text" class="validate" name="nombre" value="">
 										<label for="nombre">Nombre</label>
 									</div>
 								
@@ -233,6 +237,7 @@
 								</div>	
 							</div>
 							<div class="modal-footer">
+								<input type="hidden" name="llave" value="<?=$llave?>">
 								<button class="btn waves-effect waves-light right" type="submit" name="action" value="ingresar">Guardar
 									<i class="material-icons right">save</i>
 								</button>
