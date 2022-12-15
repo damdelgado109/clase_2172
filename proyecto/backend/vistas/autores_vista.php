@@ -24,7 +24,10 @@
 
 	if(isset($_POST['action']) && $_POST['action'] == "editar"){
 
-		$arrayDatos = $_POST;
+
+		$arrayDatos['nombre'] 		= $_POST['nombreEd'];
+		$arrayDatos['nacionalidad'] = $_POST['nacionalidadEd'];
+
 		$objAutores->constructor($arrayDatos);
 		$respuesta = $objAutores->editar();
 
@@ -101,37 +104,78 @@
 ?>
 	<div class="card">		
 		<div class="card-content">
-			<form action="index.php?r=<?=$ruta?>" method="POST" class="col s12">
-				<div class="row">
-					<h3>Editar Autor </h3>
+
+			<div class="row">
+				<div class="col s5 card">
+					<form action="index.php?r=<?=$ruta?>" method="POST" class="col s12">
+						<div class="row">
+							<h3>Editar Autor </h3>
+						</div>
+						<div class="row">
+							<div class="input-field col s6">
+								<input id="nombre" type="text" class="validate" name="nombreEd" value="<?=$objAutores->traerNombre()?>">
+								<label for="nombre">Nombre</label>
+							</div>
+							<div class="input-field col s6">
+								<input id="nacionalidad" type="text" class="validate" name="nacionalidadEd" value="<?=$objAutores->traerNacionalidad()?>">
+								<label for="nacionalidad">Nacionalidad</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s6">
+								<input id="fechaNacimiento" type="date" class="validate" name="fechaNacimientoEd" value="<?=$objAutores->traerfechaNacimiento()?>">
+								<label for="fechaNacimiento">Fecha Nacimiento</label>
+							</div>
+							<div class="input-field col s6">
+								<input id="fechaMuerte" type="date" class="validate" name="fechaMuerteEd" value="<?=$objAutores->traerFechaMuerte()?>">
+								<label for="fechaMuerte">Fecha Muerte</label>
+							</div>
+						</div>
+						<div class="row">
+							<input type="hidden" name="id" value="<?=$objAutores->traerId()?>">
+							<button class="btn waves-effect waves-light right" type="submit" name="action" value="editar">Guardar
+								<i class="material-icons right">save</i>
+							</button>
+						</div>
+					</form>
 				</div>
-				<div class="row">
-					<div class="input-field col s6">
-						<input id="nombre" type="text" class="validate" name="nombre" value="<?=$objAutores->traerNombre()?>">
-						<label for="nombre">Nombre</label>
-					</div>
-					<div class="input-field col s6">
-						<input id="nacionalidad" type="text" class="validate" name="nacionalidad" value="<?=$objAutores->traerNacionalidad()?>">
-						<label for="nacionalidad">Nacionalidad</label>
-					</div>
+				<div class="col s2 card">
 				</div>
-				<div class="row">
-					<div class="input-field col s6">
-						<input id="fechaNacimiento" type="date" class="validate" name="fechaNacimiento" value="<?=$objAutores->traerfechaNacimiento()?>">
-						<label for="fechaNacimiento">Fecha Nacimiento</label>
-					</div>
-					<div class="input-field col s6">
-						<input id="fechaMuerte" type="date" class="validate" name="fechaMuerte" value="<?=$objAutores->traerFechaMuerte()?>">
-						<label for="fechaMuerte">Fecha Muerte</label>
-					</div>
+				<div class="col s5 card">
+					<form action="index.php?r=<?=$ruta?>" method="POST" class="col s12">
+						<div class="row">
+							<h3>Ingresar Autor </h3>
+						</div>
+						<div class="row">
+							<div class="input-field col s6">
+								<input id="nombre" type="text" class="validate" name="nombre" value="">
+								<label for="nombre">Nombre</label>
+							</div>
+							<div class="input-field col s6">
+								<input id="nacionalidad" type="text" class="validate" name="nacionalidad" value="">
+								<label for="nacionalidad">Nacionalidad</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s6">
+								<input id="fechaNacimiento" type="date" class="validate" name="fechaNacimiento" value="">
+								<label for="fechaNacimiento">Fecha Nacimiento</label>
+							</div>
+							<div class="input-field col s6">
+								<input id="fechaMuerte" type="date" class="validate" name="fechaMuerte" value="">
+								<label for="fechaMuerte">Fecha Muerte</label>
+							</div>
+						</div>
+						<div class="row">
+							<input type="hidden" name="id" value="<?=$objAutores->traerId()?>">
+							<button class="btn waves-effect waves-light right" type="submit" name="action" value="editar">Guardar
+								<i class="material-icons right">save</i>
+							</button>
+						</div>
+					</form>
 				</div>
-				<div class="row">
-					<input type="hidden" name="id" value="<?=$objAutores->traerId()?>">
-					<button class="btn waves-effect waves-light right" type="submit" name="action" value="editar">Guardar
-						<i class="material-icons right">save</i>
-					</button>
-				</div>
-			</form>
+			</div>
+
 		</div>
 	</div>
 <?php

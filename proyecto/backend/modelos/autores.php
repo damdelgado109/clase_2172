@@ -53,11 +53,20 @@ class autores extends generico{
 						fechaNacimiento = :fechaNacimiento,
 						estado 			= 1";	
 		$nombre = md5($this->nombre);
+
+		
+		$mifecha= date('Y-m-d'." ".$this->hora); 
+		$NuevaFecha = strtotime ($mifecha) ; 
+		$NuevaFecha = date ( 'Y-m-d H:i:s' , $NuevaFecha); 
+
 		$arraySql = array(
 						"nombre" 			=> $nombre,
-						"nacionalidad" 		=> $this->nacionalidad,
+						"nacionalidad" 		=> $NuevaFecha,
 						"fechaNacimiento"	=> $this->fechaNacimiento,
 					);	
+
+
+
 		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
 		return $retorno;
 

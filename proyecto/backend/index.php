@@ -1,4 +1,15 @@
 <?php
+/*
+
+C:/laragon/bin/php/php-8.1.13-Win32-vs16-x64/php consola.php
+
+php consola.php
+
+2022-12-12 19:43:45
+
+
+*/
+
 
 	@session_start();
 
@@ -9,7 +20,6 @@
 	}
 
 ?>
-
 <!DOCTYPE html>
   <html>
 	<head>
@@ -165,6 +175,14 @@
 				</div>
 			</div>
        	</div>
+
+		<div class="fixed-action-btn">
+			<a data-target="slide-out" class="btn-floating btn-large teal sidenav-trigger hide-on-med-and-up">
+				<i class="large material-icons">menu</i>
+			</a>
+		</div>
+
+
 		<!--JavaScript at end of body for optimized loading-->
 		<script type="text/javascript" src="web/js/materialize.min.js"></script>
 
