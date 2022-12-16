@@ -131,11 +131,15 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s6">
+						<div class="input-field col s4">
 							<input id="precio" type="text" class="validate" name="precio" value="<?=$objLibro->traerPrecio()?>">
 							<label for="precio">Precio</label>
 						</div>
-						<div class="input-field col s6">
+						<div class="input-field col s4">
+							<input id="editorial" type="text" class="validate" name="editorial" value="<?=$objLibro->traerEditorial()?>">
+							<label for="editorial">editorial</label>
+						</div>
+						<div class="input-field col s4">
 							<input id="editorial" type="text" class="validate" name="editorial" value="<?=$objLibro->traerEditorial()?>">
 							<label for="editorial">editorial</label>
 						</div>
@@ -240,8 +244,15 @@
 <?php
 	if(isset($respuesta) && $respuesta['codigo'] == "Error"  ){
 ?>
-		<div class="red center-align" style="height:40px">
+		<div class="red center-align" style="height:80px">
 			<h4>Error realizar la operacion</h4>
+			<h5>
+<?php 
+				if(isset($respuesta['mensaje']) && $respuesta['mensaje'] != ""){
+					print_r($respuesta['mensaje']);
+				}    
+?>
+			</h5>
 		</div>
 <?php
 	}elseif(isset($respuesta) && $respuesta['codigo'] == "Ok"){	
@@ -285,7 +296,7 @@
 							<div class="modal-content">
 								<div class="row">
 									<div class="input-field col s6">
-										<input id="titulo" type="text" class="validate" name="titulo">
+										<input id="titulo" autocomplete="off" type="text" class="validate" name="titulo" data-length="10">
 										<label for="titulo">Titulo</label>
 									</div>
 									<div class="input-field col s6">
@@ -435,10 +446,35 @@
 		</tbody>
 	</table>
 
+	<div class="input-field col s6">
+										<input id="titulo" autocomplete="off" type="text" class="validate" name="titulo" data-length="10">
+										<label for="titulo">Titulo</label>
+									</div>
+<div class="input-field col s12">
+			<i class="material-icons prefix">textsms</i>
+			<input type="text" id="autocomplete-input" class="autocomplete">
+			<label for="autocomplete-input">Autocomplete</label>
+		</div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>	
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
 
 	
+	$(document).ready(function(){		
+
+		$( function() {
+				$( "#autocomplete-input" ).autocomplete({
+					source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby", "python", "postgres" ],
+					messages: {
+						noResults: '',
+						results: function() {}
+					}
+				});
+
+			});
+		$('input#titulo').characterCounter();
+	});
 
 	
 

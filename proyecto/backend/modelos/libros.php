@@ -75,6 +75,16 @@ class libros extends generico {
 
 	public function ingresar(){
 
+		$sql = "SELECT * FROM libros WHERE ibsn = :ibsn";
+		$arrayDatos = array();
+		$arrayDatos['ibsn'] = $this->ibsn;
+		$respuesta = $this->cargarDatos($sql, $arrayDatos);
+
+		if(isset($respuesta['0']['ibsn']) && $respuesta['0']['ibsn'] != ""){
+			
+			return $respuesta['0'];
+		}
+
 		$sqlInsert = "INSERT $this->tabla SET
 						titulo 		= :titulo,
 						ibsn		= :ibsn,
@@ -98,6 +108,17 @@ class libros extends generico {
 					);
 			
 		$retorno = $this->inputarCambio($sqlInsert, $arraySql);
+
+		$sql = "SELECT * FROM libros WHERE ibsn = :ibsn";
+		$arrayDatos = array();
+		$arrayDatos['ibsn'] = $this->ibsn;
+		$respuesta = $this->cargarDatos($sql, $arrayDatos);
+
+		if(isset($respuesta['0']['ibsn']) && $respuesta['0']['ibsn'] != ""){
+			
+			return $respuesta['0'];
+		}
+
 		return $retorno;
 
 	}

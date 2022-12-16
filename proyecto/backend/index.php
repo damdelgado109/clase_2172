@@ -28,6 +28,7 @@ php consola.php
 		<!--Import materialize.css-->
 		<link type="text/css" rel="stylesheet" href="web/css/materialize.min.css"  media="screen,projection"/>
 
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		
 
 
@@ -217,26 +218,6 @@ php consola.php
 			<input type="text" id="autocomplete-input" class="autocomplete">
 			<label for="autocomplete-input">Autocomplete</label>
 		</div>
-
-		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>	
-		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-		<script>
-			$(document).ready(function(){
-				console.log("Test");
-				$( function() {
-					$( "#autocomplete-input" ).autocomplete({
-						source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby", "python", "postgres" ],
-						messages: {
-							noResults: '',
-							results: function() {}
-						}
-					});
-
-				});
-			});
-		</script>
-
-
 
 	</body>
   </html>
